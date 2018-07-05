@@ -1,14 +1,11 @@
-var http = require('http');
-http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Server is running.\n');
-}).listen(3000);
+const express = require('express');
+const PORT = process.env.PORT || 8080;
+const server = express()
+  .use((req, res) => res.end('Server is running.\n'))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-var WebSocketServer = require('ws').Server
-var wss = new WebSocketServer({
-    host : '0.0.0.0',
-    port : 8080
-});
+const SocketServer = require('ws').Server
+const wss = new SocketServer({ server });
 
 var connections = [];
 var paints = [];
@@ -54,7 +51,4 @@ function broadcast(message) {
         con.send(message);
     });
 };
-
-console.log('http server running at http://127.0.0.1:3000/');
-console.log('websocket server running at ws://127.0.0.1:8080/');
 
