@@ -15,13 +15,11 @@ var paints = [];
 
 wss.on('connection', function (ws) {
     connections.push(ws);
-    sendClientCounts();
 
     ws.on('close', function () {
         connections = connections.filter(function (conn, i) {
             return (conn === ws) ? false : true;
         });
-        sendClientCounts();
     });
 
     ws.on('message', function (message) {
@@ -43,12 +41,6 @@ wss.on('connection', function (ws) {
         broadcast(JSON.stringify(paints));
     });
 });
-
-function sendClientCounts() {
-    var o = new Object();
-    o.clients = connections.length;
-    broadcast(JSON.stringify(o));
-}
 
 function broadcast(message) {
     connections.forEach(function (con, i) {
