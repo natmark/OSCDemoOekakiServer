@@ -34,7 +34,7 @@ wss.on('connection', function (ws) {
 
         var flg = true;
         paints.forEach(function (paint, i) {
-            if(paint["mouseX"] == json["mouseX"] && paint["mouseY"] == json["mouseY"]){
+            if(paint["x"] == json["x"] && paint["y"] == json["y"]){
                 flg = false;
             }
         });
