@@ -15,6 +15,7 @@ var paints = [];
 
 wss.on('connection', function (ws) {
     connections.push(ws);
+    broadcast(JSON.stringify(paints));
 
     ws.on('close', function () {
         connections = connections.filter(function (conn, i) {
@@ -24,6 +25,12 @@ wss.on('connection', function (ws) {
 
     ws.on('message', function (message) {
         const json = JSON.parse(message);
+
+        if(json["delete"] == true){
+            paints = [];
+            broadcast(JSON.stringify(paints));
+            return;
+        }
 
         var flg = true;
         paints.forEach(function (paint, i) {
